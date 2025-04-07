@@ -2,6 +2,15 @@ const insertButton = document.querySelector('.page__insert-button-wrapper').quer
 const editor = document.querySelector('.editor');
 const templatesList = document.querySelector('.template__list');
 
+function counter () {
+    let count = 1;
+
+    return function () {
+        count += 1;
+        return count;
+    };
+};
+
 const onInsertButtonClick = () => {
     const select = document.createElement('select');
     select.name = 'template';
@@ -22,4 +31,35 @@ const onInsertButtonClick = () => {
 }
 
 insertButton.addEventListener('click', onInsertButtonClick);
+
+const addTemplateButton = document.querySelector('.template__button--add');
+const templateInput = document.querySelector('.template__input');
+const templateNumber = counter();
+
+const addOptionInTemplatesList = (number) => {
+    const newOption = document.createElement('li');
+    const label = document.createElement('label');
+    const radio = document.createElement('input');
+    radio.type = "radio";
+    radio.name = "template";
+    radio.value = `option-${number}`;
+    label.textContent = `template ${number}`;
+    label.appendChild(radio);
+    newOption.dataset.number = number;
+    newOption.appendChild(label);
+    templatesList.appendChild(newOption);
+}
+
+addTemplateButton.addEventListener('click', () => {
+    const nextOptionNumber = templateNumber();
+    addOptionInTemplatesList(nextOptionNumber);
+
+    const selectsList = document.querySelectorAll('select');
+    selectsList.forEach((select) => {
+        const newOption = document.createElement('option');
+        newOption.value = `option-${nextOptionNumber}`;
+        newOption.textContent = `template ${nextOptionNumber}`;
+        select.appendChild(newOption);
+    })
+})
 
