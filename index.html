@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html class="page" lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text Editor</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="index.js" defer></script>
+</head>
+
+<body class="page__body">
+  <main>
+    <h1 class="page__title">Текстовый редактор</h1>
+    <div class="page__editor-wrapper">
+      <div class="page__insert-button-wrapper">
+        <button type="button">Insert</button>
+      </div>
+      <div class="editor" id="editor" contenteditable="true">
+      </div>
+    </div>
+    <div class="template">
+      <h2 class="template__title">Templates</h2>
+      <ul class="template__list">
+        <li data-number="1" tabindex="1">
+          <label>
+            template 1
+            <input type="radio" name="template" value="template-1">
+          </label>
+        </li>
+      </ul>
+      <div class="template__button-wrapper">
+        <button class="template__button--add" type="button">Add</button>
+        <button class="template__button--remove" type="button">Remove</button>
+      </div>
+      <input class="template__input" type="text" placeholder="New template name"/>
+    </div>
+  </main>
+</body>
+</html>
