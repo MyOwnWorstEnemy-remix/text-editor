@@ -11,6 +11,52 @@ function counter () {
     };
 };
 
+let focusedElement = null;
+let cursorPosition = { node: null, offset: 0 };
+
+const storeCursorPosition = () => {
+    if (window.getSelection) {
+        selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            let range = selection.getRangeAt(0);
+            cursorPosition.node = range.startContainer;
+            cursorPosition.offset = range.startOffset;
+        }
+    }
+}  
+              
+const restoreCursorPosition = (element) => {
+    let range = document.createRange();
+    range.setStart(cursorPosition.node, cursorPosition.offset);
+    range.collapse(true);
+  
+    let selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  
+    element.focus();
+}
+  
+const insertElementAtCursorPosition = (element, targetEl) => {
+    restoreCursorPosition(targetEl);
+    let range = document.getSelection().getRangeAt(0);
+    range.insertNode(element);
+    storeCursorPosition();
+}
+  
+editor.addEventListener("focusin",function(ev){
+    focusedElement = ev.target;
+    storeCursorPosition();
+})
+editor.addEventListener("input", function(ev){
+    focusedElement = ev.target;
+    storeCursorPosition();
+})
+editor.addEventListener("click", function(ev){
+    focusedElement = ev.target;
+    storeCursorPosition();
+})
+
 const onInsertButtonClick = () => {
     const select = document.createElement('select');
     select.name = 'template';
@@ -27,7 +73,7 @@ const onInsertButtonClick = () => {
         select.appendChild(newOption);
     });
 
-    editor.appendChild(select);
+    insertElementAtCursorPosition(select, focusedElement);
 }
 
 insertButton.addEventListener('click', onInsertButtonClick);
