@@ -104,6 +104,10 @@ input[type="radio"] {
   appearance: none;
 }
 
+option[value='error'] {
+  display: none;
+}
+
 .template__list li {
   padding: 5px;
 }
